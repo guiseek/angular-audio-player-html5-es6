@@ -1,4 +1,4 @@
-# angular-api-transparencia-brasil
+# angular-audio-player-html5-es6
 Angular Audio Component Player - HTML5/ES6
 
 ## Demo
