@@ -1,0 +1,44 @@
+* {
+    /*margin: 0;
+    padding: 0;*/
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+audio-player fieldset {
+  width: 205px;
+  padding: 4px 9px 12px 10px;
+  background-color: #f5f5f5;
+  border: 2px solid #ccc;
+}
+audio-player legend {
+  padding: 0 6px;
+}
+audio-player canvas {
+  width: 200px;
+  height: 100px;
+  background-color: #eaeaea;
+  border: 2px solid #ccc;
+}
+audio-player #controls button {
+  padding: 4px 0;
+  width: 100px;
+  font-size: 12px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+}
+audio-player #controls input[type="text"] {
+  margin: 4px 0;
+  width: 20px;
+  float: right;
+  text-align: right;
+  background-color: transparent;
+  border-width: 0;
+}
+audio-player #controls input[type="range"] {
+  margin: 2px 0;
+  width: 180px;
+}
+audio-player #list select {
+  width: 202px;
+}
