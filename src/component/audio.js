@@ -27,9 +27,13 @@ let AudioPlayerComponent = {
     let audio
     let createAudio = function() {
       audio = new Audio()
+      audio.id = 'audio'
       audio.loop = ctrl.options.loop
       audio.autoplay = ctrl.options.autoplay
       audio.crossOrigin = ctrl.options.origin
+      audio.addEventListener('ended', function() {
+        console.log(ctrl.options.musics[current + 1].value)
+      })
     }
 
     // Define variables for analyser
@@ -99,7 +103,7 @@ let AudioPlayerComponent = {
     // Check autoplay for play first sound
     let checkAutoplay = function() {
       if (ctrl.options.autoplay && ctrl.options.musics.length > 0) {
-        setMusic(ctrl.options.musics[0].value)
+        setMusic(ctrl.options.musics[current].value)
       }
     }
 
@@ -142,7 +146,7 @@ let AudioPlayerComponent = {
     }
 
     // Get options player
-    let element
+    let element, current = 0
     ctrl.getOptions = function() {
       element = $element[0]
       ctrl.options = {

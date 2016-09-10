@@ -1,6 +1,8 @@
 # angular-audio-player-html5-es6
 Angular Audio Component Player - HTML5/ES6
 
+### Este repositório surgiu da palestra do [Willian Justen](https://github.com/willianjusten) no BrazilJS 2016, que mostrou por onde começar os estudos sobre audio api. Thanks ;)
+
 ## Demo
 
 [View demo](http://guiseek.js.org/angular-audio-player-html5-es6/)
