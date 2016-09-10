@@ -20,6 +20,9 @@ audio-player canvas {
   background-color: #eaeaea;
   border: 2px solid #ccc;
 }
+audio-player #controls {
+  margin-top: 6px;
+}
 audio-player #controls button {
   padding: 4px 0;
   width: 100px;
