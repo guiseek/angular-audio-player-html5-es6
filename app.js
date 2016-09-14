@@ -11,18 +11,6 @@ angular
     }
     ctrl.list = [
       {
-        artist: 'Suissa',
-        title: 'Opinião',
-        album: 'BRJS',
-        value: 'src/musics/Suissa-Opiniao.mp3'
-      },
-      {
-        artist: 'Suissa',
-        title: 'Opinião',
-        album: 'BRJS',
-        value: 'src/musics/Suissa-Opiniao.mp3'
-      },
-      {
         artist: 'Raimundos',
         title: 'Baily Funk',
         album: 'Lapadas do povo',
