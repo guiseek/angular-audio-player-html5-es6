@@ -7,138 +7,105 @@ Object.defineProperty(exports, "__esModule", {
 var AudioPlayerComponent = {
   restrict: 'E',
   bindings: {
-    musics: '=',
-    loop: '=',
-    autoplay: '=',
-    origin: '='
+    options: '=',
+    musics: '='
   },
-  template: '\n    <fieldset>\n      <legend>Audio Player</legend>\n      <canvas id="analyser"></canvas>\n      <div id="controls">\n        <button type="button" data-control="play">Play</button>\n        <button type="button" data-control="pause">Pause</button>\n        <input type="range" name="volume" min="0.0" max="1" step="0.1" value="1">\n        <input type="text" name="volval">\n      </div>\n      <div id="list">\n        <select multiple name="list"></select>\n      </div>\n    </fieldset>\n  ',
+  template: '\n    <fieldset>\n      <legend>{{$ctrl.options.title}}</legend>\n      <canvas id="analyser"></canvas>\n      <div id="controls">\n        <button type="button" ng-click="$ctrl.play()">Play</button>\n        <button type="button" ng-click="$ctrl.pause()">Pause</button>\n        <button type="button" ng-click="$ctrl.prev()">Anterior</button>\n        <button type="button" ng-click="$ctrl.next()">Próxima</button>\n        <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">\n        <span id="volume">{{$ctrl.volume}}</span>\n        <div id="options">\n          <label>\n            <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()"> Repetir\n          <label>\n          <label>\n            <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random"> Aleatório\n          <label>\n        </div>\n      </div>\n      <div id="current">\n        <span>{{$ctrl.song}}</span>\n      </div>\n      <ul id="list">\n        <li ng-repeat="m in $ctrl.musics" ng-click="$ctrl.setMusic($index)">\n          <a>{{m.artist}} - {{m.title}}</a>\n        </li>\n      </ul>\n    </fieldset>\n  ',
   controller: function controller($scope, $element, $attrs, $timeout) {
     var ctrl = this;
-    // Define audio information and load
-    var audio = void 0;
+
     var createAudio = function createAudio() {
-      audio = new Audio();
-      audio.id = 'audio';
-      audio.loop = ctrl.options.loop;
-      audio.autoplay = ctrl.options.autoplay;
-      audio.crossOrigin = ctrl.options.origin;
-      audio.addEventListener('ended', function () {
-        console.log(ctrl.options.musics[current + 1].value);
-      });
+      ctrl.audio = new Audio();
+      ctrl.audio.loop = ctrl.options.loop;
+      ctrl.audio.autoplay = ctrl.options.autoplay;
+      ctrl.audio.crossOrigin = ctrl.options.origin || 'anonymous';
+      ctrl.audio.addEventListener('ended', ctrl.next);
     };
 
-    // Define variables for analyser
+    var getRandom = function getRandom() {
+      return Math.floor(Math.random() * ctrl.musics.length);
+    };
+
+    ctrl.setCurrent = function (current) {
+      ctrl.current = current >= ctrl.musics.length ? 0 : current;
+    };
+    var song = void 0;
+    ctrl.setSong = function () {
+      song = ctrl.musics[ctrl.current];
+      ctrl.song = song.artist + ' - ' + song.title;
+      ctrl.audio.src = song.value;
+    };
+    ctrl.setMusic = function (index) {
+      ctrl.setCurrent(index);
+      ctrl.setSong();
+      ctrl.play();
+    };
+    ctrl.changeVolume = function () {
+      ctrl.audio.volume = ctrl.volume;
+    };
+    ctrl.play = function () {
+      ctrl.audio.play();
+    };
+    ctrl.pause = function () {
+      ctrl.audio.pause();
+    };
+    ctrl.next = function () {
+      if (ctrl.options.random) {
+        ctrl.setMusic(getRandom());
+        return;
+      }
+      ctrl.setMusic(ctrl.current + 1);
+    };
+    ctrl.prev = function () {
+      if (ctrl.options.random) {
+        ctrl.setMusic(getRandom());
+        return;
+      }
+      ctrl.setMusic(ctrl.current - 1);
+    };
+    ctrl.changeLoop = function () {
+      ctrl.audio.loop = ctrl.options.loop;
+    };
+    ctrl.changeRandom = function () {
+      ctrl.audio.loop = ctrl.options.loop;
+    };
+
     var audioContext = void 0,
         analyser = void 0,
         source = void 0,
         fbc_array = void 0;
-    // Define Audio Analyser Helpers
     var createAudioContext = function createAudioContext() {
-      // Creating the context and pluging the stream to api node
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      source = audioContext.createMediaElementSource(audio);
-
-      // Creating the analyser and defining the frequency array
+      source = audioContext.createMediaElementSource(ctrl.audio);
       analyser = audioContext.createAnalyser();
       fbc_array = new Uint8Array(analyser.frequencyBinCount);
-
-      // Connect the output of the source to the input of the analyser
       source.connect(analyser);
-
-      // Connect the output of the analyser to the destination
       analyser.connect(audioContext.destination);
     };
 
-    // Define controls handler
-    var volume = void 0,
-        volval = void 0,
-        value = void 0,
-        controls = void 0;
-    var handlerControls = function handlerControls() {
-      // Select vol controls
-      volume = element.querySelector('input[name="volume"]');
-      volval = element.querySelector('input[name="volval"]');
-      // Display first volume value
-      volval.value = volume.value;
-      // Listening volume change
-      volume.addEventListener('change', function (e) {
-        value = e.target.value;
-        volval.value = value;
-        audio.volume = value;
-      }, false);
-      // Select action controls
-      controls = element.querySelectorAll('button[data-control]');
-      // Finding right action
-      controls.forEach(function (control) {
-        // Listening action click
-        control.addEventListener('click', function () {
-          audio[control.getAttribute('data-control')]();
-        }, false);
-      });
-    };
-
-    // Create sounds list
-    var list = void 0,
-        option = void 0;
-    var createList = function createList() {
-      list = element.querySelector('select[name="list"]');
-      // Populate songs list
-      ctrl.options.musics.forEach(function (m) {
-        option = document.createElement('option');
-        option.value = m.value;
-        option.innerHTML = m.artist + ' - ' + m.title + ' (' + m.album + ')';
-        list.appendChild(option);
-      });
-      // Listening double click
-      list.addEventListener('dblclick', function (e) {
-        setMusic(e.target.value);
-      }, false);
-    };
-    // Set music to play
-    var setMusic = function setMusic(music) {
-      audio.src = music;
-    };
-    // Check autoplay for play first sound
-    var checkAutoplay = function checkAutoplay() {
-      if (ctrl.options.autoplay && ctrl.options.musics.length > 0) {
-        setMusic(ctrl.options.musics[current].value);
-      }
-    };
-
-    // Define main variables for canvas start
     var canvas = void 0,
         canvasCtx = void 0;
-    // Define Canvas helpers
     var createCanvas = function createCanvas() {
       canvas = document.getElementById('analyser');
       canvasCtx = canvas.getContext('2d');
     };
-    // Define sizes canvas (self explanatory)
     var defineSizesCanvas = function defineSizesCanvas() {
       canvas.width = 200;
       canvas.height = 300;
     };
-
-    // Define variables to draw
     var bars = void 0,
         bar_x = void 0,
         bar_width = void 0,
         bar_height = void 0;
-    // Create the animation
     var frameLooper = function frameLooper() {
-      // Recursive to create our animation
       window.requestAnimationFrame(frameLooper);
-      // Get the new frequency data
       analyser.getByteFrequencyData(fbc_array);
-      // Udpate the visualization
       render();
     };
 
-    // Draw analyser
     var render = function render() {
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-      canvasCtx.fillStyle = 'red';
+      canvasCtx.fillStyle = 'orange';
       bars = 200;
       for (var i = 0; i < bars; i++) {
         bar_width = canvas.width / bars;
@@ -148,30 +115,15 @@ var AudioPlayerComponent = {
       }
     };
 
-    // Get options player
-    var element = void 0,
-        current = 0;
-    ctrl.getOptions = function () {
-      element = $element[0];
-      ctrl.options = {
-        loop: ctrl.loop || true,
-        autoplay: ctrl.autoplay || false,
-        origin: $attrs.origin || 'anonymous',
-        musics: ctrl.musics
-      };
-    };
-
-    // Init player
     ctrl.$onInit = function () {
-      ctrl.getOptions();
-      createList();
+      ctrl.current = 0;
+      ctrl.volume = 1;
       createAudio();
-      handlerControls();
       createAudioContext();
       createCanvas();
       defineSizesCanvas();
       frameLooper();
-      checkAutoplay();
+      ctrl.setSong();
     };
   }
 };

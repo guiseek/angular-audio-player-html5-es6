@@ -24,24 +24,35 @@ audio-player #controls {
   margin-top: 6px;
 }
 audio-player #controls button {
+  margin: 0 0 4px;
   padding: 4px 0;
   width: 100px;
   font-size: 12px;
   background-color: #fff;
   border: 2px solid #ccc;
 }
-audio-player #controls input[type="text"] {
+audio-player #controls #volume {
   margin: 4px 0;
   width: 20px;
+  font-size: 13px;
   float: right;
   text-align: right;
-  background-color: transparent;
-  border-width: 0;
 }
 audio-player #controls input[type="range"] {
   margin: 2px 0;
   width: 180px;
 }
-audio-player #list select {
+audio-player #current {
+  margin: 10px 0;
+}
+audio-player #current input[type="text"] {
   width: 202px;
+  background-color: transparent;
+  border: 0;
+}
+audio-player #list {
+  width: 202px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
