@@ -5,6 +5,11 @@ Angular Audio Component Player - HTML5/ES6
 
 [View demo](http://guiseek.js.org/angular-audio-player-html5-es6/)
 
+### Download
+```
+npm i angular-audio-player-html5-es6
+```
+
 ### Creating html
 ```html
 <html data-ng-app="app">
