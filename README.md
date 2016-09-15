@@ -5,6 +5,10 @@ Angular Audio Component Player - HTML5/ES6
 
 [View demo](http://guiseek.js.org/angular-audio-player-html5-es6/)
 
+## Print Screen
+
+![angular audio component player](https://raw.githubusercontent.com/guiseek/angular-audio-player-html5-es6/gh-pages/printscreen.png)
+
 ### Download
 ```
 npm i angular-audio-player-html5-es6
