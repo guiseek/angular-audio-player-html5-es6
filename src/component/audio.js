@@ -13,19 +13,26 @@ let AudioPlayerComponent = {
         <button type="button" ng-click="$ctrl.pause()">Pause</button>
         <button type="button" ng-click="$ctrl.prev()">Anterior</button>
         <button type="button" ng-click="$ctrl.next()">Próxima</button>
-        <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">
-        <span id="volume">{{$ctrl.volume}}</span>
+        <progress value="{{$ctrl.percentage}}" max="100">{{$ctrl.percentage}} %</progress>
+        <div id="time">
+          <span ng-bind="$ctrl.time"></span>
+          <span ng-bind="$ctrl.timeLeft"></span>
+        </div>
         <div id="options">
           <label>
-            <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()"> Repetir
+            Repetir
+            <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()">
+          </label>
           <label>
-          <label>
-            <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random"> Aleatório
-          <label>
+            <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random">
+            Aleatório
+          </label>
         </div>
+        <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">
+        <span id="volume">{{$ctrl.volume}}</span>
       </div>
       <div id="current">
-        <span>{{$ctrl.song}}</span>
+        <marquee scrolldelay="200">{{$ctrl.song}}</marquee>
       </div>
       <ul id="list">
         <li ng-repeat="m in $ctrl.musics" ng-click="$ctrl.setMusic($index)">
@@ -34,7 +41,7 @@ let AudioPlayerComponent = {
       </ul>
     </fieldset>
   `,
-  controller: function($scope, $element, $attrs, $timeout) {
+  controller: function($scope, $element, $attrs, $interval, $filter) {
     let ctrl = this
 
     let createAudio = () => {
@@ -92,6 +99,21 @@ let AudioPlayerComponent = {
     ctrl.changeRandom = () => {
       ctrl.audio.loop = ctrl.options.loop
     }
+    let h, m, s
+    let secToTime = (seconds) => {
+      h = Math.floor((seconds % 86400) / 3600)
+      m = Math.floor(((seconds % 86400) % 3600) / 60)
+      s = ((seconds % 86400) % 3600) % 60
+      return `${('00'+h).slice(-2)}:${('00'+m).slice(-2)}:${('00'+s).slice(-2)}`
+    }
+    let duration, currentTime
+    $interval(() => {
+      duration = Math.floor(ctrl.audio.duration)
+      currentTime = Math.floor(ctrl.audio.currentTime)
+      ctrl.time = secToTime(currentTime)
+      ctrl.timeLeft = secToTime(duration - currentTime)
+      ctrl.percentage = Math.floor((100 / ctrl.audio.duration) * ctrl.audio.currentTime)
+    }, 100)
 
     let audioContext, analyser, source, fbc_array
     let createAudioContext = () => {
@@ -134,6 +156,7 @@ let AudioPlayerComponent = {
     ctrl.$onInit = () => {
       ctrl.current = 0
       ctrl.volume = 1
+      ctrl.time = 0
       createAudio()
       createAudioContext()
       createCanvas()

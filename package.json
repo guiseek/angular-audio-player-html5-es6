@@ -1,6 +1,6 @@
 {
   "name": "angular-audio-player-html5-es6",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Angular Audio Player Component - HTML5/ES6",
   "main": "./src/index.js",
   "scripts": {

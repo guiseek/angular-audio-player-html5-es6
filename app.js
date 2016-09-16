@@ -11,16 +11,22 @@ angular
     }
     ctrl.list = [
       {
-        artist: 'Raimundos',
-        title: 'Baily Funk',
-        album: 'Lapadas do povo',
-        value: 'src/musics/Raimundos-Baily_Funk.mp3'
+        artist: 'Chasing Ghosts',
+        title: 'Fallen From Grace',
+        album: 'Chasing Ghosts',
+        value: 'musics/Chasing_Ghosts-Fallen_From_Grace.mp3'
       },
       {
         artist: 'Sepultura',
         title: 'Refuse/Resist',
         album: 'Chaos A.D.',
-        value: 'src/musics/Sepultura-Refuse_Resist.mp3'
+        value: 'musics/Sepultura-Refuse_Resist.mp3'
+      },
+      {
+        artist: 'Raimundos',
+        title: 'Baily Funk',
+        album: 'Lapadas do povo',
+        value: 'musics/Raimundos-Baily_Funk.mp3'
       }
     ]
   }])

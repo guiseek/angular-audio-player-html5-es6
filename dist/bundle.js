@@ -10,8 +10,8 @@ var AudioPlayerComponent = {
     options: '=',
     musics: '='
   },
-  template: '\n    <fieldset>\n      <legend>{{$ctrl.options.title}}</legend>\n      <canvas id="analyser"></canvas>\n      <div id="controls">\n        <button type="button" ng-click="$ctrl.play()">Play</button>\n        <button type="button" ng-click="$ctrl.pause()">Pause</button>\n        <button type="button" ng-click="$ctrl.prev()">Anterior</button>\n        <button type="button" ng-click="$ctrl.next()">Próxima</button>\n        <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">\n        <span id="volume">{{$ctrl.volume}}</span>\n        <div id="options">\n          <label>\n            <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()"> Repetir\n          <label>\n          <label>\n            <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random"> Aleatório\n          <label>\n        </div>\n      </div>\n      <div id="current">\n        <span>{{$ctrl.song}}</span>\n      </div>\n      <ul id="list">\n        <li ng-repeat="m in $ctrl.musics" ng-click="$ctrl.setMusic($index)">\n          <a>{{m.artist}} - {{m.title}}</a>\n        </li>\n      </ul>\n    </fieldset>\n  ',
-  controller: function controller($scope, $element, $attrs, $timeout) {
+  template: '\n    <fieldset>\n      <legend>{{$ctrl.options.title}}</legend>\n      <canvas id="analyser"></canvas>\n      <div id="controls">\n        <button type="button" ng-click="$ctrl.play()">Play</button>\n        <button type="button" ng-click="$ctrl.pause()">Pause</button>\n        <button type="button" ng-click="$ctrl.prev()">Anterior</button>\n        <button type="button" ng-click="$ctrl.next()">Próxima</button>\n        <progress value="{{$ctrl.percentage}}" max="100">{{$ctrl.percentage}} %</progress>\n        <div id="time">\n          <span ng-bind="$ctrl.time"></span>\n          <span ng-bind="$ctrl.timeLeft"></span>\n        </div>\n        <div id="options">\n          <label>\n            Repetir\n            <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()">\n          </label>\n          <label>\n            <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random">\n            Aleatório\n          </label>\n        </div>\n        <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">\n        <span id="volume">{{$ctrl.volume}}</span>\n      </div>\n      <div id="current">\n        <marquee scrolldelay="200">{{$ctrl.song}}</marquee>\n      </div>\n      <ul id="list">\n        <li ng-repeat="m in $ctrl.musics" ng-click="$ctrl.setMusic($index)">\n          <a>{{m.artist}} - {{m.title}}</a>\n        </li>\n      </ul>\n    </fieldset>\n  ',
+  controller: function controller($scope, $element, $attrs, $interval, $filter) {
     var ctrl = this;
 
     var createAudio = function createAudio() {
@@ -69,6 +69,24 @@ var AudioPlayerComponent = {
     ctrl.changeRandom = function () {
       ctrl.audio.loop = ctrl.options.loop;
     };
+    var h = void 0,
+        m = void 0,
+        s = void 0;
+    var secToTime = function secToTime(seconds) {
+      h = Math.floor(seconds % 86400 / 3600);
+      m = Math.floor(seconds % 86400 % 3600 / 60);
+      s = seconds % 86400 % 3600 % 60;
+      return ('00' + h).slice(-2) + ':' + ('00' + m).slice(-2) + ':' + ('00' + s).slice(-2);
+    };
+    var duration = void 0,
+        currentTime = void 0;
+    $interval(function () {
+      duration = Math.floor(ctrl.audio.duration);
+      currentTime = Math.floor(ctrl.audio.currentTime);
+      ctrl.time = secToTime(currentTime);
+      ctrl.timeLeft = secToTime(duration - currentTime);
+      ctrl.percentage = Math.floor(100 / ctrl.audio.duration * ctrl.audio.currentTime);
+    }, 100);
 
     var audioContext = void 0,
         analyser = void 0,
@@ -118,6 +136,7 @@ var AudioPlayerComponent = {
     ctrl.$onInit = function () {
       ctrl.current = 0;
       ctrl.volume = 1;
+      ctrl.time = 0;
       createAudio();
       createAudioContext();
       createCanvas();

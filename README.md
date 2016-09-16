@@ -48,16 +48,22 @@ angular
     }
     ctrl.list = [
       {
-        artist: 'Raimundos',
-        title: 'Baily Funk',
-        album: 'Lapadas do povo',
-        value: 'src/musics/Raimundos-Baily_Funk.mp3'
+        artist: 'Chasing Ghosts',
+        title: 'Fallen From Grace',
+        album: 'Chasing Ghosts',
+        value: 'musics/Chasing_Ghosts-Fallen_From_Grace.mp3'
       },
       {
         artist: 'Sepultura',
         title: 'Refuse/Resist',
         album: 'Chaos A.D.',
-        value: 'src/musics/Sepultura-Refuse_Resist.mp3'
+        value: 'musics/Sepultura-Refuse_Resist.mp3'
+      },
+      {
+        artist: 'Raimundos',
+        title: 'Baily Funk',
+        album: 'Lapadas do povo',
+        value: 'musics/Raimundos-Baily_Funk.mp3'
       }
     ]
   }])
@@ -75,6 +81,7 @@ Version | Description
 --- | ---
 1.0.0 | Upping Angular Audio Player Component
 2.0.0 | Config changed in component and code improvements
+2.1.0 | Added elapsed and remaining time
 
 ## Developer
 
