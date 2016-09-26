@@ -20,11 +20,10 @@ npm i angular-audio-player-html5-es6
 <head>
   <meta charset="utf-8">
   <title>Angular Audio Player Component - HTML5/ES6</title>
-  <link rel="stylesheet" href="src/component/style.css">
 </head>
 <body data-ng-controller="AppController as ctrl">
   <!-- Component Audio Player -->
-  <audio-player options="ctrl.options" musics="ctrl.list"></audio-player>
+  <audio-player title="Audio Player" options="ctrl.options" musics="ctrl.list"></audio-player>
   <!-- /Component Audio Player -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script src="dist/bundle.min.js"></script>
@@ -40,7 +39,6 @@ angular
   .controller('AppController', ['$scope', function ($scope) {
     var ctrl = this;
     ctrl.options = {
-      title: 'Audio Component',
       autoplay: true,
       loop: false,
       random: true,
@@ -82,6 +80,7 @@ Version | Description
 1.0.0 | Upping Angular Audio Player Component
 2.0.0 | Config changed in component and code improvements
 2.1.0 | Added elapsed and remaining time
+2.2.0 | Config changed and imports HTML, CSS files
 
 ## Developer
 
