@@ -1,46 +1,13 @@
+import template from './template.js'
+
 let AudioPlayerComponent = {
   restrict: 'E',
   bindings: {
+    title: '@',
     options: '=',
-    musics: '='
+    musics: '<'
   },
-  template: `
-    <fieldset>
-      <legend>{{$ctrl.options.title}}</legend>
-      <canvas id="analyser"></canvas>
-      <div id="controls">
-        <button type="button" ng-click="$ctrl.play()">Play</button>
-        <button type="button" ng-click="$ctrl.pause()">Pause</button>
-        <button type="button" ng-click="$ctrl.prev()">Anterior</button>
-        <button type="button" ng-click="$ctrl.next()">Próxima</button>
-        <progress value="{{$ctrl.percentage}}" max="100">{{$ctrl.percentage}} %</progress>
-        <div id="time">
-          <span ng-bind="$ctrl.time"></span>
-          <span ng-bind="$ctrl.timeLeft"></span>
-        </div>
-        <div id="options">
-          <label>
-            Repetir
-            <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()">
-          </label>
-          <label>
-            <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random">
-            Aleatório
-          </label>
-        </div>
-        <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">
-        <span id="volume">{{$ctrl.volume}}</span>
-      </div>
-      <div id="current">
-        <marquee scrolldelay="200">{{$ctrl.song}}</marquee>
-      </div>
-      <ul id="list">
-        <li ng-repeat="m in $ctrl.musics" ng-click="$ctrl.setMusic($index)">
-          <a>{{m.artist}} - {{m.title}}</a>
-        </li>
-      </ul>
-    </fieldset>
-  `,
+  template: template,
   controller: function($scope, $element, $attrs, $interval, $filter) {
     let ctrl = this
 
@@ -163,7 +130,7 @@ let AudioPlayerComponent = {
       defineSizesCanvas()
       frameLooper()
       ctrl.setSong()
-    };
+    }
   }
 }
 

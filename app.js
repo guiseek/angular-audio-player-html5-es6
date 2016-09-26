@@ -3,7 +3,6 @@ angular
   .controller('AppController', ['$scope', function ($scope) {
     var ctrl = this;
     ctrl.options = {
-      title: 'Audio Component',
       autoplay: true,
       loop: false,
       random: true,
