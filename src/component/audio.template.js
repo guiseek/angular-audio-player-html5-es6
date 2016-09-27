@@ -1,4 +1,4 @@
-import style from './style.js'
+import style from './audio.style.js'
 
 export default `
 <style>${style}</style>
@@ -24,9 +24,10 @@ export default `
       <span ng-bind="$ctrl.timeLeft"></span>
     </div>
     <div id="options">
-      <label>
-        Repetir
-        <input type="checkbox" name="loop" ng-model="$ctrl.options.loop" ng-checked="$ctrl.options.loop" ng-change="$ctrl.changeLoop()">
+      <pre>{{$ctrl.options.loop | json}}</pre>
+      <label data-ng-click="$ctrl.options.loop = !$ctrl.options.loop">
+        <svg data-ng-show="$ctrl.options.loop" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" /></svg>
+        <svg data-ng-show="!$ctrl.options.loop" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M2,5.27L3.28,4L20,20.72L18.73,22L15.73,19H7V22L3,18L7,14V17H13.73L7,10.27V11H5V8.27L2,5.27M17,13H19V17.18L17,15.18V13M17,5V2L21,6L17,10V7H8.82L6.82,5H17Z" /></svg>
       </label>
       <label>
         <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random">
@@ -39,9 +40,5 @@ export default `
   <div id="current">
     <marquee scrolldelay="200">{{$ctrl.song}}</marquee>
   </div>
-  <ul id="list">
-    <li ng-repeat="m in $ctrl.musics" ng-click="$ctrl.setMusic($index)">
-      <a>{{m.artist}} - {{m.title}}</a>
-    </li>
-  </ul>
+  <audio-list musics="$ctrl.musics" on-set-music="$ctrl.setMusic(index)"></audio-list>
 </fieldset>`

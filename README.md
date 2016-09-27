@@ -81,6 +81,7 @@ Version | Description
 2.0.0 | Config changed in component and code improvements
 2.1.0 | Added elapsed and remaining time
 2.2.0 | Config changed and imports HTML, CSS files
+2.2.1 | Create sub-component audio-list and apply audio-list toggle animation
 
 ## Developer
 

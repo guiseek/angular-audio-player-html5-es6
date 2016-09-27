@@ -30,6 +30,9 @@ audio-player #controls button {
   border: 2px solid #ccc;
 }
 audio-player #controls #time,
+audio-player #controls #options label {
+  cursor: pointer;
+}
 audio-player #controls #options {
   width: 202px;
 }
@@ -61,26 +64,5 @@ audio-player #current input[type="text"] {
   width: 202px;
   background-color: transparent;
   border: 0;
-}
-audio-player #list {
-  margin: 0;
-  padding: 0;
-  width: 202px;
-  max-height: 60px;
-  overflow-y: scroll;
-  list-style: none;
-}
-
-audio-player #list li {
-  margin: 3px 0;
-  padding: 3px 0;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid #ccc;
-}
-audio-player #list li:last-child {
-  border-bottom: 0;
 }
 `

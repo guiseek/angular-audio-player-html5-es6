@@ -1,14 +1,15 @@
-import template from './template.js'
+import template from './audio.template.js'
 
 let AudioPlayerComponent = {
   restrict: 'E',
   bindings: {
     title: '@',
     options: '=',
-    musics: '<'
+    musics: '<',
+    onSetMusic: '&'
   },
   template: template,
-  controller: function($scope, $element, $attrs, $interval, $filter) {
+  controller: function($scope, $element, $attrs, $interval) {
     let ctrl = this
 
     let createAudio = () => {
