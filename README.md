@@ -82,6 +82,7 @@ Version | Description
 2.1.0 | Added elapsed and remaining time
 2.2.0 | Config changed and imports HTML, CSS files
 2.2.1 | Create sub-component audio-list and apply audio-list toggle animation
+2.2.2 | Adding SVG icons to loop, random and also changed the npm tasks
 
 ## Developer
 
@@ -89,5 +90,5 @@ Version | Description
 
 Command | Description
 --- | ---
-npm run dev | Concat, Babelify 
+npm start | Start live server, concat, babelify and watchify changes 
 npm run build | Concat, Babelify and Minify 

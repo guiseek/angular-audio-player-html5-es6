@@ -72,11 +72,22 @@ var AudioPlayerComponent = {
       }
       ctrl.setMusic(ctrl.current - 1);
     };
+    var getSvgFill = function getSvgFill(bool) {
+      return bool ? '#000000' : '#999999';
+    };
+    var setLoopFill = function setLoopFill() {
+      loop.style.fill = getSvgFill(ctrl.options.loop);
+    };
     ctrl.changeLoop = function () {
-      ctrl.audio.loop = ctrl.options.loop;
+      ctrl.audio.loop = ctrl.options.loop = !ctrl.options.loop;
+      setLoopFill();
+    };
+    var setRandomFill = function setRandomFill() {
+      random.style.fill = getSvgFill(ctrl.options.random);
     };
     ctrl.changeRandom = function () {
-      ctrl.audio.loop = ctrl.options.loop;
+      ctrl.options.random = !ctrl.options.random;
+      setRandomFill();
     };
     var h = void 0,
         m = void 0,
@@ -153,6 +164,15 @@ var AudioPlayerComponent = {
       frameLooper();
       ctrl.setSong();
     };
+
+    var loop = void 0,
+        random = void 0;
+    ctrl.$postLink = function () {
+      loop = $element[0].querySelector('#loop');
+      setLoopFill();
+      random = $element[0].querySelector('#random');
+      setRandomFill();
+    };
   }
 };
 
@@ -200,7 +220,7 @@ exports.default = AudioListComponent;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = "\naudio-player audio-list {\n  display: block;\n  position: relative;\n}\naudio-player audio-list button {\n  position: absolute;\n  left: 82px;\n  bottom: -38px;\n  cursor: pointer;\n  background-color: transparent;\n  border: 0;\n}\naudio-player audio-list #list {\n  padding: 0;\n  width: 202px;\n  max-height: 120px;\n  overflow-y: scroll;\n  list-style: none;\n  -webkit-transition: all 1s ease;\n  -moz-transition: all 1s ease;\n  -ms-transition: all 1s ease;\n  -o-transition: all 1s ease;\n  transition: all 1s ease;\n}\naudio-player audio-list #list.hide {\n  max-height: 0;\n}\naudio-player audio-list #list li {\n  margin: 3px 0;\n  padding: 3px 0;\n  cursor: pointer;\n  white-space: nowrap;\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  border-bottom: 1px solid #ccc;\n}\naudio-player audio-list #list li:last-child {\n  border-bottom: 0;\n}\n";
+exports.default = "\naudio-player audio-list {\n  display: block;\n  position: relative;\n}\naudio-player audio-list button {\n  position: absolute;\n  left: 82px;\n  bottom: -38px;\n  cursor: pointer;\n  background-color: transparent;\n  border: 0;\n}\naudio-player audio-list #list {\n  padding: 0;\n  width: 202px;\n  max-height: 120px;\n  overflow-y: scroll;\n  list-style: none;\n  -webkit-transition: all 1s ease;\n  -moz-transition: all 1s ease;\n  -ms-transition: all 1s ease;\n  -o-transition: all 1s ease;\n  transition: all 1s ease;\n}\naudio-player audio-list #list.hide {\n  max-height: 0;\n}\naudio-player audio-list #list li {\n  margin: 3px 0;\n  padding: 3px 0;\n  cursor: pointer;\n  white-space: nowrap;\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  border-bottom: 1px solid #ccc;\n}\naudio-player audio-list #list li:last-child {\n  border-bottom: 0;\n}";
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -215,7 +235,7 @@ var _audioListStyle2 = _interopRequireDefault(_audioListStyle);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = '\n<style>' + _audioListStyle2.default + '</style>\n<button type="button" data-ng-click="$ctrl.toggle()">\n  <svg data-ng-show="!$ctrl.show" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M10,4H14V13L17.5,9.5L19.92,11.92L12,19.84L4.08,11.92L6.5,9.5L10,13V4Z" /></svg>\n  <svg data-ng-show="$ctrl.show" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M14,20H10V11L6.5,14.5L4.08,12.08L12,4.16L19.92,12.08L17.5,14.5L14,11V20Z" /></svg>\n</button>\n<ul id="list" data-ng-class="{hide: !$ctrl.show}">\n  <li ng-repeat="music in $ctrl.musics" ng-click="$ctrl.setMusic($index)">\n    <a>{{music.artist}} - {{music.title}}</a>\n  </li>\n</ul>\n';
+exports.default = '\n<style>' + _audioListStyle2.default + '</style>\n<button type="button" data-ng-click="$ctrl.toggle()">\n  <svg data-ng-show="!$ctrl.show" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M10,4H14V13L17.5,9.5L19.92,11.92L12,19.84L4.08,11.92L6.5,9.5L10,13V4Z" /></svg>\n  <svg data-ng-show="$ctrl.show" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M14,20H10V11L6.5,14.5L4.08,12.08L12,4.16L19.92,12.08L17.5,14.5L14,11V20Z" /></svg>\n</button>\n<ul id="list" data-ng-class="{hide: !$ctrl.show}">\n  <li ng-repeat="music in $ctrl.musics" ng-click="$ctrl.setMusic($index)">\n    <a>{{music.artist}} - {{music.title}}</a>\n  </li>\n</ul>';
 
 },{"./audio.list.style.js":3}],5:[function(require,module,exports){
 "use strict";
@@ -238,7 +258,7 @@ var _audioStyle2 = _interopRequireDefault(_audioStyle);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = '\n<style>' + _audioStyle2.default + '</style>\n<fieldset>\n  <legend>{{$ctrl.title}}</legend>\n  <canvas id="analyser"></canvas>\n  <div id="controls">\n    <button type="button" ng-click="$ctrl.play()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>\n    </button>\n    <button type="button" ng-click="$ctrl.pause()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M14,19H18V5H14M6,19H10V5H6V19Z" /></svg>\n    </button>\n    <button type="button" ng-click="$ctrl.prev()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" /></svg>\n    </button>\n    <button type="button" ng-click="$ctrl.next()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" /></svg>\n    </button>\n    <progress value="{{$ctrl.percentage}}" max="100">{{$ctrl.percentage}} %</progress>\n    <div id="time">\n      <span ng-bind="$ctrl.time"></span>\n      <span ng-bind="$ctrl.timeLeft"></span>\n    </div>\n    <div id="options">\n      <pre>{{$ctrl.options.loop | json}}</pre>\n      <label data-ng-click="$ctrl.options.loop = !$ctrl.options.loop">\n        <svg data-ng-show="$ctrl.options.loop" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" /></svg>\n        <svg data-ng-show="!$ctrl.options.loop" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M2,5.27L3.28,4L20,20.72L18.73,22L15.73,19H7V22L3,18L7,14V17H13.73L7,10.27V11H5V8.27L2,5.27M17,13H19V17.18L17,15.18V13M17,5V2L21,6L17,10V7H8.82L6.82,5H17Z" /></svg>\n      </label>\n      <label>\n        <input type="checkbox" name="random" ng-model="$ctrl.options.random" ng-checked="$ctrl.options.random">\n        Aleatório\n      </label>\n    </div>\n    <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">\n    <span id="volume">{{$ctrl.volume}}</span>\n  </div>\n  <div id="current">\n    <marquee scrolldelay="200">{{$ctrl.song}}</marquee>\n  </div>\n  <audio-list musics="$ctrl.musics" on-set-music="$ctrl.setMusic(index)"></audio-list>\n</fieldset>';
+exports.default = '\n<style>' + _audioStyle2.default + '</style>\n<fieldset>\n  <legend>{{$ctrl.title}}</legend>\n  <canvas id="analyser"></canvas>\n  <div id="controls">\n    <button type="button" ng-click="$ctrl.play()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>\n    </button>\n    <button type="button" ng-click="$ctrl.pause()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M14,19H18V5H14M6,19H10V5H6V19Z" /></svg>\n    </button>\n    <button type="button" ng-click="$ctrl.prev()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" /></svg>\n    </button>\n    <button type="button" ng-click="$ctrl.next()">\n      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" /></svg>\n    </button>\n    <progress value="{{$ctrl.percentage}}" max="100">{{$ctrl.percentage}} %</progress>\n    <div id="time">\n      <span ng-bind="$ctrl.time"></span>\n      <span ng-bind="$ctrl.timeLeft"></span>\n    </div>\n    <div id="options">\n      <label data-ng-click="$ctrl.changeLoop()">\n        <svg id="loop" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">\n          <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>\n          <path d="M0 0h24v24H0z" fill="none"/>\n        </svg>\n      </label>\n      <label data-ng-click="$ctrl.changeRandom()">\n        <svg id="random" fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">\n          <path d="M0 0h24v24H0z" fill="none"/>\n          <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>\n        </svg>\n      </label>\n    </div>\n    <input type="range" ng-change="$ctrl.changeVolume()" ng-model="$ctrl.volume" min="0.0" max="1" step="0.1" ng-value="$ctrl.volume">\n    <span id="volume">{{$ctrl.volume}}</span>\n  </div>\n  <div id="current">\n    <marquee scrolldelay="200">{{$ctrl.song}}</marquee>\n  </div>\n  <audio-list musics="$ctrl.musics" on-set-music="$ctrl.setMusic(index)"></audio-list>\n</fieldset>';
 
 },{"./audio.style.js":5}],7:[function(require,module,exports){
 'use strict';

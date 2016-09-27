@@ -61,11 +61,22 @@ let AudioPlayerComponent = {
       }
       ctrl.setMusic(ctrl.current - 1)
     }
+    let getSvgFill = bool => {
+      return bool ? '#000000' : '#999999'
+    }
+    let setLoopFill = () => {
+      loop.style.fill = getSvgFill(ctrl.options.loop)
+    }
     ctrl.changeLoop = () => {
-      ctrl.audio.loop = ctrl.options.loop
+      ctrl.audio.loop = ctrl.options.loop = !ctrl.options.loop
+      setLoopFill()
+    }
+    let setRandomFill = () => {
+      random.style.fill = getSvgFill(ctrl.options.random)
     }
     ctrl.changeRandom = () => {
-      ctrl.audio.loop = ctrl.options.loop
+      ctrl.options.random = !ctrl.options.random
+      setRandomFill()
     }
     let h, m, s
     let secToTime = (seconds) => {
@@ -131,6 +142,14 @@ let AudioPlayerComponent = {
       defineSizesCanvas()
       frameLooper()
       ctrl.setSong()
+    }
+
+    let loop, random
+    ctrl.$postLink = () => {
+      loop = $element[0].querySelector('#loop')
+      setLoopFill()
+      random = $element[0].querySelector('#random')
+      setRandomFill()
     }
   }
 }

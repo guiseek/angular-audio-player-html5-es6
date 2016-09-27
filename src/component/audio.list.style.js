@@ -37,5 +37,4 @@ audio-player audio-list #list li {
 }
 audio-player audio-list #list li:last-child {
   border-bottom: 0;
-}
-`
+}`

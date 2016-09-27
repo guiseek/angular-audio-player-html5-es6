@@ -10,5 +10,4 @@ export default `
   <li ng-repeat="music in $ctrl.musics" ng-click="$ctrl.setMusic($index)">
     <a>{{music.artist}} - {{music.title}}</a>
   </li>
-</ul>
-`
+</ul>`

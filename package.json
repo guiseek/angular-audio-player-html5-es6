@@ -4,7 +4,11 @@
   "description": "Angular Audio Player Component - HTML5/ES6",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "npm-run-all -s -c build:concat",
+    "start": "npm-run-all -p live-server dev",
+    "live-server": "live-server --port=9000",
+    "dev": "npm-run-all -p dev:sequential",
+    "dev:sequential": "npm-run-all -s -c dev:concat",
+    "dev:concat": "watchify ./src/index.js -o ./dist/bundle.js -t [ babelify ]",
     "build": "npm-run-all -p build:sequential",
     "build:sequential": "npm-run-all -s -c build:concat build:minify",
     "build:concat": "browserify ./src/index.js -o ./dist/bundle.js -t [ babelify ]",
@@ -24,6 +28,7 @@
     "babel-preset-es2015": "^6.13.2",
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
+    "live-server": "^1.1.0",
     "npm-run-all": "^2.3.0",
     "uglify-js": "^2.7.0",
     "watchify": "^3.7.0"
