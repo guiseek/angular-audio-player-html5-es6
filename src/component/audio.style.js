@@ -64,5 +64,4 @@ audio-player #current input[type="text"] {
   width: 202px;
   background-color: transparent;
   border: 0;
-}
-`
+}`
